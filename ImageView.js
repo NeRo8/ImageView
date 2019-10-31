@@ -8,7 +8,6 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, View, Image, Dimensions} from 'react-native';
-import {highlightTrailingWhitespace} from 'jest-matcher-utils';
 
 //Ці значення береш з картинки (тільки для локальних картинок) з серверних картинок треба по іншому робити
 const imgWidth = 2880;
@@ -35,16 +34,20 @@ class App extends Component {
   }
 
   render() {
+    const remoteImage =
+      this.state.iHeight / (this.state.iWidth / Dimensions.get('window').width);
+
     return (
-      <View style={{flex: 1, paddingTop: 20}}>
+      <View style={styles.container}>
         <View
           style={{
+            marginTop: 20,
             width: '100%',
             height: imgHeight / (imgWidth / Dimensions.get('window').width),
           }}>
           <Image
             source={require('./1.jpg')}
-            style={{flex: 1, width: null, height: null}}
+            style={styles.imageContainer}
             resizeMode="contain"
           />
         </View>
@@ -54,13 +57,11 @@ class App extends Component {
             style={{
               marginTop: 20,
               width: '100%',
-              height:
-                this.state.iHeight /
-                (this.state.iWidth / Dimensions.get('window').width),
+              height: remoteImage,
             }}>
             <Image
               source={{uri: this.state.imgURL}}
-              style={{flex: 1, width: null, height: null}}
+              style={styles.imageContainer}
               resizeMode="contain"
             />
           </View>
@@ -69,5 +70,17 @@ class App extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,
+  },
+  imageContainer: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
+});
 
 export default App;
